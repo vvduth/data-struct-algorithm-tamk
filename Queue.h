@@ -5,7 +5,7 @@
 #include "error_code.h"
 #include"Utility.h"
 using namespace std;
-typedef char Queue_entry;
+typedef double Queue_entry;
 const int maxqueue = 10; // small value for testing
 class Queue {
 public:
