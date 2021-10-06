@@ -125,7 +125,7 @@ int main( )
 Uses: The class Stack and functions introduction, instructions, do command,
 and get command. */
 {
-    double Jan, Apr, Jun, Sep, Nov ;
+    double Jan, Apr, Jun, Sep, Nov,profit1 , profit2, lst ;
     Jan = 10 ;
     Apr = 30 ;
     Jun = 20; 
@@ -133,6 +133,37 @@ and get command. */
     Nov = 30 ;
     Stack s ,s1, s2,s3 ,stockLIFO;
     Queue q, q2, stockFIFO;
+
+    stockLIFO.push(Jan);
+    stockLIFO.push(Apr);
+    stockLIFO.top(lst);
+    stockLIFO.pop();
+    profit1 = (Jun - lst) * 100;
+    stockLIFO.push(Sep);
+    stockLIFO.top(lst);
+    stockLIFO.pop();
+    profit1 += (Nov - lst) * 100;
+    cout << "Profit LIFO is "  << profit1 << " $" <<endl;
+
+    stockFIFO.append(Jan);
+    stockFIFO.append(Apr);
+    stockFIFO.retrieve(lst);
+    stockFIFO.serve();
+    profit2 = (Jun - lst) * 100;
+    stockFIFO.append(Sep);
+    stockFIFO.retrieve(lst);
+    stockFIFO.serve();
+    profit2 += (Nov - lst)*100;
+    cout << "Profit FIFO is "  << profit2 << " $" <<endl;
+
+
+    
+    
+
+
+
+
+
     s.push(12);
     s.push(31);
     s.push(122);
