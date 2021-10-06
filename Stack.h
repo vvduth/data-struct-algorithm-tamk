@@ -1,7 +1,6 @@
 #pragma once
-#include<stack>
-#include<system_error>
-#include"Utility.h"
+#include <iostream>
+#include "error_code.h"
 using namespace std;
 
 typedef double Stack_entry;

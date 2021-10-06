@@ -2,6 +2,7 @@
 
 
 #include<system_error>
+#include "error_code.h"
 #include"Utility.h"
 using namespace std;
 typedef char Queue_entry;
