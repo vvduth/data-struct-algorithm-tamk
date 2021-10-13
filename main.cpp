@@ -2,6 +2,8 @@
 #include"Stack.h"
 #include<stack>
 #include"Queue.h"
+#include"extended_queue.h"
+#include <cstring>
 using namespace std ;
 
 void queue_to_stack (Queue& q, Stack& s);
@@ -120,84 +122,73 @@ void reverse_stack_by_queue(Stack& s){
     }
 }
 
+bool check_equal(Extended_queue& a, Extended_queue &b) {
+    double a_top, b_top ;
+    bool res = true;
+    if (a.size() != b.size()){
+        res = false;
+    } else {
+        while(!a.empty()){
+            a.retrieve(a_top);
+            b.retrieve(b_top);
+            a.serve();
+            b.serve();
+            if (a_top != b_top){
+                res = false;
+                break;
+            }
+
+        }
+        
+        
+    }
+    return res ;
+}
+
 int main( )
 /* Post: The program has executed simple arithmetic commands entered by the user.
 Uses: The class Stack and functions introduction, instructions, do command,
 and get command. */
 {
-    double Jan, Apr, Jun, Sep, Nov,profit1 , profit2, lst ;
-    Jan = 10 ;
-    Apr = 30 ;
-    Jun = 20; 
-    Sep = 50 ;
-    Nov = 30 ;
-    Stack s ,s1, s2,s3 ,stockLIFO;
-    Queue q, q2, stockFIFO;
-
-    stockLIFO.push(Jan);
-    stockLIFO.push(Apr);
-    stockLIFO.top(lst);
-    stockLIFO.pop();
-    profit1 = (Jun - lst) * 100;
-    stockLIFO.push(Sep);
-    stockLIFO.top(lst);
-    stockLIFO.pop();
-    profit1 += (Nov - lst) * 100;
-    cout << "Profit LIFO is "  << profit1 << " $" <<endl;
-
-    stockFIFO.append(Jan);
-    stockFIFO.append(Apr);
-    stockFIFO.retrieve(lst);
-    stockFIFO.serve();
-    profit2 = (Jun - lst) * 100;
-    stockFIFO.append(Sep);
-    stockFIFO.retrieve(lst);
-    stockFIFO.serve();
-    profit2 += (Nov - lst)*100;
-    cout << "Profit FIFO is "  << profit2 << " $" <<endl;
-
-
     
+    string s ;
+
+    cout << "Enter the string: " ; cin >> s ;
+    Extended_queue left;
+    Extended_queue right;
+
+    int n = s.length();
+
+    char s_array[n+1];
+
+    strcpy(s_array, s.c_str()); 
+
+    for (int i = 0 ; i < n; i++){
+        if(s_array[i] != ':'){
+            left.append(s_array[i]);
+        } else {
+            break;
+        }
+    }
+    int  j = left.size();
+
+    for (int i = j + 1; i < n; i++){
+        right.append(s_array[i]);
+    }
     
-
-
-
-
-
-    s.push(12);
-    s.push(31);
-    s.push(122);
-    s.push(132);
-    s.push(912);
-    s.push(1299);
-    q2.append(12);
-    q2.append(1);
-    q2.append(1);
-    q2.append(1);
-    q2.append(13);
+    cout << "Left size: " << left.size() << " right size: " << right.size() << endl ; 
     
-
-    stack_to_queue(s , q);
-    print_queue(q);
-
-    queue_to_stack(q,s1);
-    print_stack(s1);
-
-    empty_stack_relative(s1,s2);
-    print_stack(s2);
-    print_stack(s1);
-
-    empty_stack_reverse(s2,s3);
-    print_stack(s3);
-    print_stack(s2);
-
-    reverse_queue_by_stack(q2);
-    print_queue(q2);
-
-    reverse_stack_by_queue(s3);
-    print_stack(s3);
-  
-
+    if (right.size() == 0) {
+        cout << "N" << endl;
+    } else if ( left.size() > right.size()){
+        cout << "L" <<endl;
+    } else if (left.size() < right.size()) {
+        cout << "R" << endl ;
+    } else if (left.size() ==  right.size() && !check_equal(left,right) ){
+        cout << "D" << endl ;
+    } else if (check_equal(left,right)){
+        cout << "S";
+    }
     
 
 }
