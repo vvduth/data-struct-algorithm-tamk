@@ -1,12 +1,65 @@
 #include <iostream>
-#include "utility.h"
-#include "Random.h"
-#include "Runway.h"
+#include"Utility.h"
+#include"random.h"
+#include"runway.h"
+#include"plane.h"
 using namespace std;
 
 void run_idle(int time);
 void initialize(int& end_time, int& queue_limit,
     double& arrival_rate, double& departure_rate);
+
+int main()
+{
+    Random random;
+    int end_time;
+    int queue_limit;
+    int flight_number = 0;
+    double arrival_rate, departure_rate;
+
+    initialize(end_time, queue_limit, arrival_rate, departure_rate);
+
+    Runway small_airport(queue_limit);
+
+    for (int current_time = 0; current_time < end_time; current_time++)
+    {
+        int number_arrivals = random.poisson(arrival_rate);
+        for (int i = 0; i < number_arrivals; ++i)
+        {
+            Plane current_plane(flight_number++, current_time, Plane_status::arriving);
+            if (small_airport.can_land(current_plane) != success)
+                current_plane.refuse();
+
+        }
+
+        int num_departures = random.poisson(departure_rate);
+
+        for (int j = 0; j < num_departures; j++)
+        {
+            Plane current_plane(flight_number++, current_time, Plane_status::departing);
+            if (small_airport.can_depart(current_plane) != success)
+                current_plane.refuse();
+        }
+
+        Plane moving_plane;
+        switch (small_airport.activity(current_time, moving_plane))
+        {
+        case Runway_activity::land:
+            moving_plane.land(current_time);
+            break;
+        case Runway_activity::takeoff:
+            moving_plane.fly(current_time);
+            break;
+        case Runway_activity::idle:
+            run_idle(current_time);
+        }
+
+    }
+    small_airport.shut_down(end_time);
+
+    return 0;
+	
+}
 
 void run_idle(int time)
 {
@@ -38,39 +91,4 @@ void initialize(int& end_time, int& queue_limit,
             cerr << "Safety Warning: This airport will become saturated." << endl;
 
     } while (!acceptable);
-}
-
-int main( ) // Airport simulation program
-/* Pre: The user must supply the number of time intervals the simulation is to run, the
-expected number of planes arriving, the expected number of planes departing
-per time interval, and the maximum allowed size for runway queues.
-Post: The program performs a random simulation of the airport, showing the status of
-the runway at each time interval, and prints out a summary of airport operation
-at the conclusion.
-Uses: Classes Runway, Plane, Random and functions run idle, initialize. */
-{
- int end time; // time to run simulation
-int queue limit; // size of Runway queues
-int flight number = 0;
-double arrival rate, departure rate;
-initialize(end time, queue limit, arrival rate, departure rate);
-Random variable; Runway small airport(queue limit);
-for (int current time = 0; current time < end time; current time++) {
-int number arrivals = variable.poisson(arrival rate);
-for (int i = 0; i < number arrivals; i++) {
-Plane current plane(flight number++, current time, arriving);
-if (small airport.can land(current plane) != success)
-current plane.refuse( ); }
-int number departures = variable.poisson(departure rate);
-for (int j = 0; j < number departures; j++) {
-Plane current plane(flight number++, current time, departing);
-if (small airport.can depart(current plane) != success)
-current plane.refuse( ); }
-Plane moving plane;
-switch (small airport.activity(current time, moving plane)) {
-case land: moving plane.land(current time); break;
-case takeoff: moving plane.fly(current time); break;
-case idle: run idle(current time); }
-}
-small airport.shut down(end time);
 }

@@ -31,10 +31,10 @@ Error_code Extended_queue::serve_and_retrieve(Queue_entry& item)
 
 void Extended_queue::print()
 {
-	for (int i = 0, j = front;
-		i < this->count; i++, j = ((j + 1) == maxqueue) ? 0 : (j + 1))
-		cout << this->entry[j] << ' ';
+	// for (int i = 0, j = front;
+	// 	i < this->count; i++, j = ((j + 1) == maxqueue) ? 0 : (j + 1))
+	// 	cout << this->entry[j] << ' ';
 
-	cout << endl;
+	// cout << endl;
 
 }

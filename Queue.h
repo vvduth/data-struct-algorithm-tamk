@@ -4,8 +4,9 @@
 #include<system_error>
 #include "error_code.h"
 #include"Utility.h"
+#include"plane.h"
 using namespace std;
-typedef double Queue_entry;
+typedef Plane Queue_entry;
 const int maxqueue = 10; // small value for testing
 class Queue {
 public:
