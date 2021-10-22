@@ -147,7 +147,7 @@ Post: Runway usage statistics are summarized and printed.
 */
 
 {
-    cout << "---------------------------------\n"
+    cout << "*********************************************************\n"
          << "Simulation has concluded after " << time << " time units." << endl
          << "Total number of planes processed "
          << (num_land_requests + num_takeoff_requests) << endl
@@ -189,6 +189,7 @@ Post: Runway usage statistics are summarized and printed.
     cout << "Average observed rate of planes wanting to take off "
          << ((float)num_takeoff_requests) / ((float)time)
          << " per time unit" << endl;
+    cout << "**************************************************************" << endl;
 }
 
 void Runway::fixDivertedLandingCount()
