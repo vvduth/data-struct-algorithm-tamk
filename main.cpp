@@ -1,194 +1,76 @@
-#include<iostream>
-#include"Stack.h"
-#include<stack>
-#include"Queue.h"
-#include"extended_queue.h"
-#include <cstring>
-using namespace std ;
+#include <iostream>
+#include "utility.h"
+#include "Random.h"
+#include "Runway.h"
+using namespace std;
 
-void queue_to_stack (Queue& q, Stack& s);
-void stack_to_queue (Stack& s, Queue &q);
+void run_idle(int time);
+void initialize(int& end_time, int& queue_limit,
+    double& arrival_rate, double& departure_rate);
 
-
-void print_queue(Queue q){
-    double n ; 
-    while(!q.empty()){
-        q.retrieve(n);
-        cout << n << " " ;
-        q.serve();
-    }
-    cout << endl ;
-}
-
-void print_stack (Stack s){
-    double n ;
-    while (!s.empty()){
-        s.top(n);
-        cout << n << " " ;
-        s.pop() ;
-    }
-    cout << endl ;
-}
-
-double sum_of_stack(Stack s) {
-    double sum = 0 ;
-    double n ;
-    while(!s.empty()){
-        s.top(n);
-        sum = sum + n ;
-        s.pop();
-    }
-    return sum ;
-
-}
-double sum_of_queue(Queue q) {
-    double sum = 0 ;
-    double n ;
-    while(!q.empty()){
-        q.retrieve(n);
-        sum = sum + n;
-        q.serve();
-    }
-    return sum ;
-
-}
-void stack_to_queue (Stack& s, Queue &q){
-    double n ;
-    Stack temp ;
-    while (!s.empty()){
-        s.top(n);
-        temp.push(n);
-        s.pop();
-    }
-    while (!temp.empty()){
-        temp.top(n);
-        q.append(n);
-        temp.pop();
-    }
-}
-
-void queue_to_stack (Queue& q, Stack& s) {
-    double n ;
-    while ( !q.empty()){
-        q.retrieve(n);
-        s.push(n);
-        q.serve();
-    }
-}
-
-void empty_stack_relative(Stack& s, Stack& s1){
-    copy_stack_c(s1,s);
-    clear(s);
-}
-void empty_stack_reverse(Stack& s, Stack& s1) {
-    Stack temp ;
-    double n ;
-    while (!s.empty()){
-        s.top(n);
-        temp.push(n);
-        s.pop();
-    }
-    copy_stack_c(s1,temp);
-}
-
-void reverse_queue_by_stack(Queue& q) {
-    Stack temp ;
-    double n;
-    while(!q.empty()){
-        q.retrieve(n);
-        temp.push(n);
-        q.serve();
-    }
-    while(!temp.empty()){
-        temp.top(n);
-        q.append(n);
-        temp.pop();
-    }
-
-}
-
-void reverse_stack_by_queue(Stack& s){
-    Queue temp ;
-    double t;
-    while(!s.empty()){
-        s.top(t);
-        temp.append(t);
-        s.pop();
-    }
-    while (!temp.empty()){
-        temp.retrieve(t);
-        s.push(t);
-        temp.serve();
-    }
-}
-
-bool check_equal(Extended_queue& a, Extended_queue &b) {
-    double a_top, b_top ;
-    bool res = true;
-    if (a.size() != b.size()){
-        res = false;
-    } else {
-        while(!a.empty()){
-            a.retrieve(a_top);
-            b.retrieve(b_top);
-            a.serve();
-            b.serve();
-            if (a_top != b_top){
-                res = false;
-                break;
-            }
-
-        }
-        
-        
-    }
-    return res ;
-}
-
-int main( )
-/* Post: The program has executed simple arithmetic commands entered by the user.
-Uses: The class Stack and functions introduction, instructions, do command,
-and get command. */
+void run_idle(int time)
 {
-    
-    string s ;
+    cout << time << ": Runway is idle." << endl;
+}
 
-    cout << "Enter the string: " ; cin >> s ;
-    Extended_queue left;
-    Extended_queue right;
+void initialize(int& end_time, int& queue_limit,
+    double& arrival_rate, double& departure_rate)
+{
+    cout << "This program simulates an airport with only a runway." << endl
+        << "One plane can land to depart in each unit of time." << endl
+        << "Up to what number of planes can be waiting to land "
+        << "or take off at any time? " << flush;
+    cin >> queue_limit;
+    cout << "How many units of time will the simulation run? " << flush;
+    cin >> end_time;
+    bool acceptable;
+    do
+    {
+        cout << "Expected number of arrivals per unit time? " << flush;
+        cin >> arrival_rate;
+        cout << "Expected number of departures er unit time?" << flush;
+        cin >> departure_rate;
+        if (arrival_rate < 0.0 || departure_rate < 0.0)
+            cerr << "These rates must be nonnegative." << endl;
+        else
+            acceptable = true;
+        if (acceptable && arrival_rate + departure_rate > 1.0)
+            cerr << "Safety Warning: This airport will become saturated." << endl;
 
-    int n = s.length();
+    } while (!acceptable);
+}
 
-    char s_array[n+1];
-
-    strcpy(s_array, s.c_str()); 
-
-    for (int i = 0 ; i < n; i++){
-        if(s_array[i] != ':'){
-            left.append(s_array[i]);
-        } else {
-            break;
-        }
-    }
-    int  j = left.size();
-
-    for (int i = j + 1; i < n; i++){
-        right.append(s_array[i]);
-    }
-    
-    cout << "Left size: " << left.size() << " right size: " << right.size() << endl ; 
-    
-    if (right.size() == 0) {
-        cout << "N" << endl;
-    } else if ( left.size() > right.size()){
-        cout << "L" <<endl;
-    } else if (left.size() < right.size()) {
-        cout << "R" << endl ;
-    } else if (left.size() ==  right.size() && !check_equal(left,right) ){
-        cout << "D" << endl ;
-    } else if (check_equal(left,right)){
-        cout << "S";
-    }
-    
-
+int main( ) // Airport simulation program
+/* Pre: The user must supply the number of time intervals the simulation is to run, the
+expected number of planes arriving, the expected number of planes departing
+per time interval, and the maximum allowed size for runway queues.
+Post: The program performs a random simulation of the airport, showing the status of
+the runway at each time interval, and prints out a summary of airport operation
+at the conclusion.
+Uses: Classes Runway, Plane, Random and functions run idle, initialize. */
+{
+ int end time; // time to run simulation
+int queue limit; // size of Runway queues
+int flight number = 0;
+double arrival rate, departure rate;
+initialize(end time, queue limit, arrival rate, departure rate);
+Random variable; Runway small airport(queue limit);
+for (int current time = 0; current time < end time; current time++) {
+int number arrivals = variable.poisson(arrival rate);
+for (int i = 0; i < number arrivals; i++) {
+Plane current plane(flight number++, current time, arriving);
+if (small airport.can land(current plane) != success)
+current plane.refuse( ); }
+int number departures = variable.poisson(departure rate);
+for (int j = 0; j < number departures; j++) {
+Plane current plane(flight number++, current time, departing);
+if (small airport.can depart(current plane) != success)
+current plane.refuse( ); }
+Plane moving plane;
+switch (small airport.activity(current time, moving plane)) {
+case land: moving plane.land(current time); break;
+case takeoff: moving plane.fly(current time); break;
+case idle: run idle(current time); }
+}
+small airport.shut down(end time);
 }
