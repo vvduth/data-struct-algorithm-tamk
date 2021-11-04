@@ -18,6 +18,7 @@ public:
     Error_code can_depart(const Plane &current);
     Runway_activity activity(int time, Plane &moving);
     Runway_activity activity_3(int time, Plane &moving);
+    Runway_activity activity_4(int time, Plane &moving);
     void shut_down(int time) const;
     void fixDivertedLandingCount();
     void fixDivertedTakeoffCount();

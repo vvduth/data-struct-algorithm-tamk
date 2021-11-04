@@ -160,4 +160,10 @@ void Airport_4::shut_down()
     cout << "---------------------------------\n";
 
     departure_runway->shut_down(end_time);
+
+
+    cout << "--------------------------------\n";
+    cout << "|   Stats for Backup Runway  |\n";
+    cout << "--------------------------------\n";
+
 }
