@@ -3,7 +3,7 @@
 #include "airport.h"
 #include "airport_1.h"
 #include "airport_2.h"
-//#include "airport_3.h"
+#include "airport_3.h"
 
 using namespace std;
 
@@ -65,9 +65,9 @@ Uses: Classes Runway, Plane, Random and functions run_idle, initialize.
     case 2:
        airport = new Airport_2();
        break;
-    // case 3:
-    //     airport = new Airport_3();
-    //     break;
+    case 3:
+        airport = new Airport_3();
+        break;
     }
 
     airport->run();
