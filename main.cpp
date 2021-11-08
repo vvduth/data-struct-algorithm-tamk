@@ -4,6 +4,7 @@
 #include "airport_1.h"
 #include "airport_2.h"
 #include "airport_3.h"
+#include "airport_4.h"
 
 using namespace std;
 
@@ -21,12 +22,14 @@ int chooseVersion()
              << "1: task 1: single shared runway\n"
              << "2: task 2: separate runways for arrival and departure\n"
              << "3: task 3: separate runways for arrival and departure, planes can be moved between\n"
+             << "4: task 4: three runways, one for arrival and one for departure,\n"
+             << "   the other one is for arrival. if the arrival queue is empty. it can be use for departure\n"
              << "Your choice: "
              << flush;
 
         if (cin >> userChoise)
         {
-            if (userChoise == 1 || userChoise == 2 || userChoise == 3)
+            if (userChoise == 1 || userChoise == 2 || userChoise == 3 || userChoise == 4)
             {
                 return userChoise;
             }
@@ -68,6 +71,9 @@ Uses: Classes Runway, Plane, Random and functions run_idle, initialize.
     case 3:
         airport = new Airport_3();
         break;
+    case 4:
+        airport = new Airport_4() ;
+        break ;
     }
 
     airport->run();

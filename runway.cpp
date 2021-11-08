@@ -45,6 +45,8 @@ Uses:  class Extended_queue.
     return result;
 }
 
+
+
 Error_code Runway::can_depart(const Plane &current)
 /*
 Post:  If possible, the Plane current is added to the

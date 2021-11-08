@@ -75,7 +75,7 @@ void Airport_4::run()
             Plane current_plane(flight_number++, current_time, Plane_status::arriving);
             if (arrival_runway->can_land(current_plane) != success)
             {
-                if (departure_runway->can_land(current_plane) != success)
+                if (backup_runway->can_land(current_plane) != success)
                 {
                     current_plane.refuse();
                 }
@@ -88,14 +88,22 @@ void Airport_4::run()
         {
             Plane current_plane(flight_number++, current_time, Plane_status::departing);
             if (departure_runway->can_depart(current_plane) != success)
-                current_plane.refuse();
+            {
+                if (backup_runway->can_depart(current_plane) != success)
+                {
+                    current_plane.refuse();
+                }
+
+                departure_runway->fixDivertedTakeoffCount();
+            }
+                
         }
 
         Plane moving_plane;
 
-        // Now two planes can be moving at the same time, one on each runway
+        // Now three planes can be moving at the same time, one on each runway
 
-        switch (arrival_runway->activity_3(current_time, moving_plane))
+        switch (arrival_runway->activity(current_time, moving_plane))
         {
             //  Let at most one Plane onto the Runway at current_time.
         case Runway_activity::land:
@@ -103,43 +111,64 @@ void Airport_4::run()
             break;
         case Runway_activity::idle:
 
-            // Try to get plane from other runway
-            Runway_activity activity = departure_runway->movePlaneToOtherRunway(current_time, moving_plane);
-
-            if (activity != Runway_activity::idle)
-            {
-                arrival_runway->serveTakeoffFromOtherRunway(current_time, moving_plane);
-                moving_plane.fly(current_time);
-            }
-            else
-            {
-                arrival_runway->idle();
-                run_idle(current_time, "arrival");
-            }
+            run_idle(current_time, "arrival");
             break;
         }
 
-        switch (departure_runway->activity_3(current_time, moving_plane))
+        switch (departure_runway->activity(current_time, moving_plane))
         {
             //  Let at most one Plane onto the Runway at current_time.
         case Runway_activity::takeoff:
             moving_plane.fly(current_time);
             break;
         case Runway_activity::idle:
+            run_idle(current_time, "arrival");
+            break;
+        }
+
+        switch (backup_runway ->activity_3(current_time, moving_plane))
+        {
+        //             
+        case Runway_activity::land:
+            moving_plane.land(current_time);
+            break;
+        case Runway_activity::takeoff:
+            {
+            //check if arrival runway is empty or not, if no, move the next front plane in the quee to the back up runway and let it land
+            //skip the take off
             Runway_activity activity = arrival_runway->movePlaneToOtherRunway(current_time, moving_plane);
 
             if (activity != Runway_activity::idle)
             {
-                departure_runway->serveLandingFromOtherRunway(current_time, moving_plane);
+                backup_runway->serveLandingFromOtherRunway(current_time, moving_plane);
                 moving_plane.land(current_time);
+            } else {
+                moving_plane.fly(current_time);
             }
-            else
-            {
-                departure_runway->idle();
-                run_idle(current_time, "departure");
             }
             break;
-        }
+        case Runway_activity::idle:
+            {
+            Runway_activity activity_arrival = arrival_runway->movePlaneToOtherRunway(current_time, moving_plane);
+            Runway_activity activity_departure = departure_runway->movePlaneToOtherRunway(current_time, moving_plane);
+            if (activity_arrival != Runway_activity::idle)
+            {
+                backup_runway->serveLandingFromOtherRunway(current_time, moving_plane);
+                moving_plane.land(current_time);
+            } 
+            else if (activity_departure != Runway_activity::idle)
+            {
+                backup_runway->serveTakeoffFromOtherRunway(current_time,moving_plane);
+                moving_plane.fly(current_time);
+            } 
+            
+            else {
+                backup_runway->idle();
+                run_idle(current_time, "backup");  
+            }
+            }
+            break;
+    }
     }
 }
 
@@ -166,5 +195,7 @@ void Airport_4::shut_down()
     cout << "--------------------------------\n";
     cout << "|   Stats for Backup Runway  |\n";
     cout << "--------------------------------\n";
+
+    backup_runway->shut_down(end_time);
 
 }
