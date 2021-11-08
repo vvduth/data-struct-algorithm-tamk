@@ -5,7 +5,8 @@
 #include "error_code.h"
 #include "airport.h"
 
-class Airport_4 : public Airport {
+class Airport_4 : public Airport 
+{
     private:
         Runway *arrival_runway;
         Runway *departure_runway ;
@@ -21,4 +22,4 @@ class Airport_4 : public Airport {
         void run_idle(int time, string runway);
         void shut_down() override;
 
-}
+};

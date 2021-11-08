@@ -11,6 +11,7 @@ Airport_4::Airport_4()
 
     arrival_runway = new Runway(queue_limit);
     departure_runway = new Runway(queue_limit);
+    backup_runway = new Runway(queue_limit);
 }
 
 Airport_4::Airport_4(int endTime, int queueLimit, double arrivalRate, double departureRate)
