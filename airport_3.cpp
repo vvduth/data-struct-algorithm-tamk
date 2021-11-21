@@ -109,7 +109,7 @@ void Airport_3::run()
             }
             else
             {
-                arrival_runway->idle();
+                arrival_runway->idle3();
                 run_idle(current_time, "arrival");
             }
             break;
@@ -131,7 +131,7 @@ void Airport_3::run()
             }
             else
             {
-                departure_runway->idle();
+                departure_runway->idle2();
                 run_idle(current_time, "departure");
             }
             break;
@@ -156,5 +156,5 @@ void Airport_3::shut_down()
     cout << "|   Stats for Departure Runway  |\n";
     cout << "---------------------------------\n";
 
-    departure_runway->shut_down(end_time);
+    departure_runway->shut_down_2(end_time);
 }

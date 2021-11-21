@@ -20,9 +20,12 @@ public:
     Runway_activity activity_3(int time, Plane &moving);
     Runway_activity activity_4(int time, Plane &moving);
     void shut_down(int time) const;
+    void shut_down_2(int time) const;
     void fixDivertedLandingCount();
     void fixDivertedTakeoffCount();
     void idle();
+    void idle2();
+    void idle3();
     Runway_activity movePlaneToOtherRunway(int time, Plane &moving);
     Runway_activity serveLandingFromOtherRunway(int time, Plane &moving);
     Runway_activity serveTakeoffFromOtherRunway(int time, Plane &moving);
@@ -42,6 +45,8 @@ private:
     int land_wait;            //  total time of planes waiting to land
     int takeoff_wait;         //  total time of planes waiting to take off
     int idle_time;            //  total time runway is idle
+    int idle_time_2 ;           //task3
+    int idle_time_3 ;   ///task3
 
     int num_landing_diverted; //  number of landing planes diverted to other runway
     int num_takeoff_diverted; //  number of departing planes diverted to other runway
