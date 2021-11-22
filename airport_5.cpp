@@ -80,7 +80,7 @@ void Airport_5::run()
         {
             //  Let at most one Plane onto the Runway at current_time.
         case Runway_activity::land:
-            moving_plane.land(current_time);
+            moving_plane.land_for_task_5(current_time);
             break;
         case Runway_activity::takeoff:
             moving_plane.fly(current_time);
