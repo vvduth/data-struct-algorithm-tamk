@@ -5,7 +5,7 @@
 #include "airport_2.h"
 #include "airport_3.h"
 #include "airport_4.h"
-
+#include "airport_5.h"
 using namespace std;
 
 int chooseVersion()
@@ -29,7 +29,7 @@ int chooseVersion()
 
         if (cin >> userChoise)
         {
-            if (userChoise == 1 || userChoise == 2 || userChoise == 3 || userChoise == 4)
+            if (userChoise == 1 || userChoise == 2 || userChoise == 3 || userChoise == 4 || userChoise == 5)
             {
                 return userChoise;
             }
@@ -74,6 +74,8 @@ Uses: Classes Runway, Plane, Random and functions run_idle, initialize.
     case 4:
         airport = new Airport_4() ;
         break ;
+    case 5:
+        airport = new Airport_5() ;
     }
 
     airport->run();

@@ -15,10 +15,12 @@ class Runway
 public:
     Runway(int limit);
     Error_code can_land(const Plane &current);
+    Error_code can_land_for_task_5(const Plane &current);
     Error_code can_depart(const Plane &current);
     Runway_activity activity(int time, Plane &moving);
     Runway_activity activity_3(int time, Plane &moving);
     Runway_activity activity_4(int time, Plane &moving);
+    Runway_activity activity_5(int time, Plane &moving);
     void shut_down(int time) const;
     void shut_down_2(int time) const;
     void shut_down_3(int time) const ;
@@ -34,6 +36,7 @@ public:
 private:
     Extended_queue landing;
     Extended_queue takeoff;
+    Extended_queue priority ;
     int queue_limit;
     int num_land_requests;    //  number of planes asking to land
     int num_takeoff_requests; //  number of planes asking to take off

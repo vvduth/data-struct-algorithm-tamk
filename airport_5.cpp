@@ -58,10 +58,12 @@ void Airport_5::run()
     for (int current_time = 0; current_time < end_time; current_time++)
     {                                                       //  loop over time intervals
         int number_arrivals = random.poisson(arrival_rate); //  current arrival requests
+        
         for (int i = 0; i < number_arrivals; i++)
         {
-            Plane current_plane(flight_number++, current_time, Plane_status::arriving);
-            if (runway->can_land(current_plane) != success)
+            int fuel_level = random.random_integer(MIN_FUEL,MAX_FUEL);
+            Plane current_plane(flight_number++, current_time, Plane_status::arriving, fuel_level);
+            if (runway->can_land_for_task_5(current_plane) != success)
                 current_plane.refuse();
         }
 
@@ -74,7 +76,7 @@ void Airport_5::run()
         }
 
         Plane moving_plane;
-        switch (runway->activity(current_time, moving_plane))
+        switch (runway->activity_5(current_time, moving_plane))
         {
             //  Let at most one Plane onto the Runway at current_time.
         case Runway_activity::land:

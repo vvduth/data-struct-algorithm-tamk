@@ -1,10 +1,12 @@
+#pragma once
 #include <iostream>
 #include "runway.h"
 #include "plane.h"
 #include "random.h"
 #include "error_code.h"
 #include "airport.h"
-
+const int MIN_FUEL = 1 ;
+const int MAX_FUEL = 5 ;
 // airport of task 1 has only one runway that is used for both arrival and departure.
 class Airport_5 : public Airport
 {

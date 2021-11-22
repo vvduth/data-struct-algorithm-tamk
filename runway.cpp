@@ -48,6 +48,34 @@ Uses:  class Extended_queue.
     return result;
 }
 
+Error_code Runway::can_land_for_task_5(const Plane &current){
+    Error_code result;
+    if (priority.size() > 1 ) {
+        cout << "Too many planes out of fuel, the simulation is going crash" << endl ;
+        
+    } else if (landing.size() + priority.size() < queue_limit) 
+        {
+            int fuel_lev = current.getFuelLevel();
+            if (fuel_lev <= 1 ){
+               result = priority.append(current);
+            } else {
+                result = landing.append(current);
+            }
+            
+        }
+    else
+        {result = fail;}
+    num_land_requests++;
+
+    if (result != success)
+        {num_land_refused++;}
+    else
+        {num_land_accepted++;}
+
+    return result;
+
+}
+
 
 
 Error_code Runway::can_depart(const Plane &current)
@@ -88,6 +116,54 @@ Uses:  class Extended_queue.
 {
     Runway_activity in_progress;
     if (!landing.empty())
+    {
+        landing.retrieve(moving);
+        land_wait += time - moving.started();
+        num_landings++;
+        in_progress = Runway_activity::land;
+        landing.serve();
+    }
+
+    else if (!takeoff.empty())
+    {
+        takeoff.retrieve(moving);
+        takeoff_wait += time - moving.started();
+        num_takeoffs++;
+        in_progress = Runway_activity::takeoff;
+        takeoff.serve();
+    }
+
+    else
+    {
+        idle_time++;
+        in_progress = Runway_activity::idle;
+    }
+    return in_progress;
+}
+
+
+Runway_activity Runway::activity_5(int time, Plane &moving)
+/*
+Post:  If the landing Queue has entries, its front
+       Plane is copied to the parameter moving
+       and a result  land is returned. Otherwise,
+       if the takeoff Queue has entries, its front
+       Plane is copied to the parameter moving
+       and a result  takeoff is returned. Otherwise,
+       idle is returned. Runway statistics are updated.
+Uses:  class Extended_queue.
+*/
+
+{
+    Runway_activity in_progress;
+    if (!priority.empty()) {
+        priority.retrieve(moving);
+        land_wait += time - moving.started();
+        num_landings++;
+        in_progress = Runway_activity::land;
+        priority.serve();
+    }
+    else if (!landing.empty())
     {
         landing.retrieve(moving);
         land_wait += time - moving.started();

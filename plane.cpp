@@ -34,11 +34,16 @@ Post:  The Plane data members flt_num, clock_start,
     clock_start = time;
     state = status;
     fuel_level = fuel_level_x;
-    cout << "Plane number " << flt << " with" << fuel_level_x << " fuel" << " ready to ";
+    cout << "Plane number " << flt << " with " << fuel_level_x << " fuel" << " ready to ";
+  
     if (status == Plane_status::arriving)
         cout << "land." << endl;
     else
         cout << "take off." << endl;
+
+    if (fuel_level <= 1) {
+        cout << "Plane number " << flt << " with " << fuel_level_x << " fuel" << " was given priority to land first." << endl;
+    }
 }
 
 Plane::Plane()
@@ -73,9 +78,18 @@ Post: Processes a Plane that is landing at the specified time.
 
 {
     int wait = time - clock_start;
+
+    if (fuel_level <= 1) {
+         cout << time << ": Plane number " << flt_num << " landed after "
+         << wait << " time unit" << ((wait == 1) ? "" : "s")
+         << " because of low fuel." << endl;
+    }
+    
+    else {
     cout << time << ": Plane number " << flt_num << " landed after "
          << wait << " time unit" << ((wait == 1) ? "" : "s")
          << " in the takeoff queue." << endl;
+    }
 }
 
 void Plane::fly(int time) const
@@ -99,9 +113,9 @@ Post: Return the time that the Plane entered the airport system.
 }
 
 void Plane::setFuelLevel( int fuelLevel) {
-    fuel_level = fuelLevel;
+    this->fuel_level = fuelLevel;
 }
 
-int Plane::getFuelLevel() {
+int Plane::getFuelLevel() const {
     return fuel_level;
 }
