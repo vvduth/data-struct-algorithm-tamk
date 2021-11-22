@@ -16,9 +16,12 @@ public:
    void land(int time) const;
    void fly(int time) const;
    int started() const;
+   void setFuelLevel();
+   int getFuelLevel() ;
 
 private:
    int flt_num;
    int clock_start;
+   int fuel_level;
    Plane_status state;
 };

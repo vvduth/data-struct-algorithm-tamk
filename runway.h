@@ -21,6 +21,7 @@ public:
     Runway_activity activity_4(int time, Plane &moving);
     void shut_down(int time) const;
     void shut_down_2(int time) const;
+    void shut_down_3(int time) const ;
     void fixDivertedLandingCount();
     void fixDivertedTakeoffCount();
     void idle();

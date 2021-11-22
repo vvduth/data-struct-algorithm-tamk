@@ -37,20 +37,20 @@ void Airport_4::initialize()
          << "in each unit of time." << endl
          << "the third runway is prioritized for landing" << endl
          << "if the landing queue is empty the third runway can be use for take off"
-         << "if the arrivals queue is full, the arrivals will be diverted to departures\n";
+         << "if the arrivals queue is full, the arrivals will be diverted to departures \n";
     cout << "Up to what number of planes can be waiting to land "
-         << "or take off at any time? on each runway" << flush;
+         << "or take off at any time? on each runway " << flush;
     cin >> queue_limit;
 
-    cout << "How many units of time will the simulation run?" << flush;
+    cout << "How many units of time will the simulation run? " << flush;
     cin >> end_time;
 
     bool acceptable;
     do
     {
-        cout << "Expected number of arrivals per unit time?" << flush;
+        cout << "Expected number of arrivals per unit time? " << flush;
         cin >> arrival_rate;
-        cout << "Expected number of departures per unit time?" << flush;
+        cout << "Expected number of departures per unit time? " << flush;
         cin >> departure_rate;
         if (arrival_rate < 0.0 || departure_rate < 0.0)
             cerr << "These rates must be nonnegative." << endl;
@@ -110,7 +110,7 @@ void Airport_4::run()
             moving_plane.land(current_time);
             break;
         case Runway_activity::idle:
-
+            arrival_runway->idle3();
             run_idle(current_time, "arrival");
             break;
         }
@@ -122,7 +122,8 @@ void Airport_4::run()
             moving_plane.fly(current_time);
             break;
         case Runway_activity::idle:
-            run_idle(current_time, "arrival");
+            departure_runway->idle2();
+            run_idle(current_time, "departure");
             break;
         }
 
@@ -189,13 +190,13 @@ void Airport_4::shut_down()
     cout << "|   Stats for Departure Runway  |\n";
     cout << "---------------------------------\n";
 
-    departure_runway->shut_down(end_time);
+    departure_runway->shut_down_2(end_time);
 
 
     cout << "--------------------------------\n";
     cout << "|   Stats for Backup Runway  |\n";
     cout << "--------------------------------\n";
 
-    backup_runway->shut_down(end_time);
+    backup_runway->shut_down_3(end_time);
 
 }

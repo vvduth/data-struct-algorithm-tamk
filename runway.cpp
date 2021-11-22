@@ -183,10 +183,10 @@ Post: Runway usage statistics are summarized and printed.
          << takeoff.size() << endl;
     cout << "Percentage of time runway idle " 
          << 100.0 * ((float)idle_time_3) / ((float)time) << "% " <<  idle_time_3 << " " << time << endl;
-    cout << "Average wait in landing queue "
+    cout << "Average wait in landing queue (maybe -nan if there is no plane take off/land in the simulation ) "
          << ((float)land_wait) / ((float)num_landings) << " time units";
     cout << endl
-         << "Average wait in takeoff queue "
+         << "Average wait in takeoff queue (maybe -nan if there is no plane take off/land in the simulation ) "
          << ((float)takeoff_wait) / ((float)num_takeoffs)
          << " time units" << endl;
     cout << "Average observed rate of planes wanting to land "
@@ -321,18 +321,70 @@ Post: Runway usage statistics are summarized and printed.
          << "Total number of planes left in takeoff queue "
          << takeoff.size() << endl;
     cout << "Percentage of time runway idle " 
-         << 100.0 * ((float)idle_time_2) / ((float)time) << "% " << idle_time_2 << " " << time << endl;
-    cout << "Average wait in landing queue "
+         << 100.0 * ((float)idle_time_2) / ((float)time) << "% " << endl;
+    cout << "Average wait in landing queue (maybe -nan if there is no plane take off/land in the simulation)"
          << ((float)land_wait) / ((float)num_landings) << " time units";
     cout << endl
-         << "Average wait in takeoff queue "
-         << ((float)takeoff_wait) / ((float)num_takeoffs)
+         << "Average wait in takeoff queue(maybe -nan if there is no plane take off in the simulation) "
+         << ((float)takeoff_wait) / ((float)num_takeoffs) << " " << takeoff_wait 
          << " time units" << endl;
     cout << "Average observed rate of planes wanting to land "
          << ((float)num_land_requests) / ((float)time)
          << " per time unit" << endl;
     cout << "Average observed rate of planes wanting to take off "
          << ((float)num_takeoff_requests) / ((float)time)
+         << " per time unit" << endl;
+    cout << "**************************************************************" << endl;
+}
+
+
+void Runway::shut_down_3(int time) const
+/*
+Post: Runway usage statistics are summarized and printed.
+*/
+
+{
+    cout << "*********************************************************\n"
+         << "Simulation has concluded after " << time << " time units." << endl
+         << "Total number of planes processed "
+         << (num_land_requests + num_takeoff_requests) << endl
+         << "Total number of planes asking to land "
+         << num_land_requests << endl
+         << "Total number of planes asking to take off "
+         << num_takeoff_requests << endl
+         << "Total number of planes accepted for landing "
+         << num_land_accepted << endl
+         << "Total number of planes accepted for takeoff "
+         << num_takeoff_accepted << endl
+         << "Total number of planes refused for landing "
+         << num_land_refused << endl
+         << "Total number of planes refused for takeoff "
+         << num_takeoff_refused << endl
+         << "Total number of planes that landed "
+         << num_landings << endl
+         << "Total number of planes that took off "
+         << num_takeoffs << endl
+         << "Total number landing planes diverted to other runway "
+         << num_landing_diverted << endl
+         << "Total number taking off planes diverted to other runway "
+         << num_takeoff_diverted << endl
+         << "Total number of planes left in landing queue "
+         << landing.size() << endl
+         << "Total number of planes left in takeoff queue "
+         << takeoff.size() << endl;
+    cout << "Percentage of time runway idle " 
+         << 100.0 * ((float)idle_time) / ((float)time) << "% " << idle_time << " " << time << endl;
+    cout << "Average wait in landing queue (maybe -nan if there is no plane take off/land in the simulation )"
+         << ((float)land_wait) / ((float)num_landings) << " time units";
+    cout << endl
+         << "Average wait in takeoff queue (maybe -nan if there is no plane take off/land in the simulation )"
+         << ((float)takeoff_wait) / ((float)num_takeoffs)
+         << " time units" << endl;
+    cout << "Average wait in takeoff queue "
+         << ((float)num_land_requests) / ((float)time)
+         << " per time unit" << endl;
+    cout << "Average observed rate of planes wanting to take off "
+         << ((float)num_takeoff_requests) / ((float)time) 
          << " per time unit" << endl;
     cout << "**************************************************************" << endl;
 }

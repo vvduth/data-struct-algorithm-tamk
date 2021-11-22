@@ -22,6 +22,25 @@ Post:  The Plane data members flt_num, clock_start,
         cout << "take off." << endl;
 }
 
+Plane::Plane(int flt, int time, Plane_status status, int fuel_level_x)
+/*
+Post:  The Plane data members flt_num, clock_start,
+       and state are set to the values of the parameters flt,
+       time and status, respectively.
+*/
+
+{
+    flt_num = flt;
+    clock_start = time;
+    state = status;
+    fuel_level = fuel_level_x;
+    cout << "Plane number " << flt << " with" << fuel_level_x << " fuel" << " ready to ";
+    if (status == Plane_status::arriving)
+        cout << "land." << endl;
+    else
+        cout << "take off." << endl;
+}
+
 Plane::Plane()
 /*
 Post:  The Plane data members flt_num, clock_start,
@@ -77,4 +96,12 @@ Post: Return the time that the Plane entered the airport system.
 */
 {
     return clock_start;
+}
+
+void Plane::setFuelLevel( int fuelLevel) {
+    fuel_level = fuelLevel;
+}
+
+int Plane::getFuelLevel() {
+    return fuel_level;
 }
