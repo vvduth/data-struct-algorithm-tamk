@@ -15,6 +15,7 @@ public:
    Plane(int flt, int time, Plane_status status, int fuel_level_x);
    void refuse() const;
    void land(int time) const;
+   void land_for_task_5(int time) const;
    void fly(int time) const;
    int started() const;
    void setFuelLevel(int fuelLevel);
