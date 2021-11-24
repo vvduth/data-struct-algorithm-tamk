@@ -87,6 +87,10 @@ void Airport_5::run()
             break;
         case Runway_activity::idle:
             run_idle(current_time);
+        case Runway_activity::crash:
+            runway->shut_down(end_time);
+        
+
         }
     }
 }

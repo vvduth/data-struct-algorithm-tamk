@@ -24,6 +24,8 @@ int chooseVersion()
              << "3: task 3: separate runways for arrival and departure, planes can be moved between\n"
              << "4: task 4: three runways, one for arrival and one for departure,\n"
              << "   the other one is for arrival. if the arrival queue is empty. it can be use for departure\n"
+             << "5: task 5: one runway, each arrival planes has it own fuel_level(1-5),\n"
+             << "   planes with fuel level <= 1 will be prioritized to land first. \n"
              << "Your choice: "
              << flush;
 

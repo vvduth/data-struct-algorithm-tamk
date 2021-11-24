@@ -52,6 +52,7 @@ Error_code Runway::can_land_for_task_5(const Plane &current){
     Error_code result;
     if (priority.size() > 1 ) {
         cout << "Too many planes out of fuel, the simulation is going crash" << endl ;
+        return crash;
         
     } else if (landing.size() + priority.size() < queue_limit) 
         {
@@ -156,7 +157,10 @@ Uses:  class Extended_queue.
 
 {
     Runway_activity in_progress;
-    if (!priority.empty()) {
+    if (priority.size() > 1) {
+        in_progress = Runway_activity::crash;
+    }
+    else if (!priority.empty()) {
         priority.retrieve(moving);
         land_wait += time - moving.started();
         num_landings++;

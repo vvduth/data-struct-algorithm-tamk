@@ -30,15 +30,15 @@ void Airport_1::initialize()
          << "or take off at any time? " << flush;
     cin >> queue_limit;
 
-    cout << "How many units of time will the simulation run?" << flush;
+    cout << "How many units of time will the simulation run? " << flush;
     cin >> end_time;
 
     bool acceptable;
     do
     {
-        cout << "Expected number of arrivals per unit time?" << flush;
+        cout << "Expected number of arrivals per unit time? " << flush;
         cin >> arrival_rate;
-        cout << "Expected number of departures per unit time?" << flush;
+        cout << "Expected number of departures per unit time? " << flush;
         cin >> departure_rate;
         if (arrival_rate < 0.0 || departure_rate < 0.0)
             cerr << "These rates must be nonnegative." << endl;

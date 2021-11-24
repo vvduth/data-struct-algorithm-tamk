@@ -7,7 +7,8 @@ enum class Runway_activity
 {
     idle,
     land,
-    takeoff
+    takeoff,
+    crash
 };
 
 class Runway
