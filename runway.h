@@ -25,6 +25,7 @@ public:
     void shut_down(int time) const;
     void shut_down_2(int time) const;
     void shut_down_3(int time) const ;
+    void shut_down_task_5(int time) const;
     void fixDivertedLandingCount();
     void fixDivertedTakeoffCount();
     void idle();

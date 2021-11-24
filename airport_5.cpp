@@ -63,7 +63,10 @@ void Airport_5::run()
         {
             int fuel_level = random.random_integer(MIN_FUEL,MAX_FUEL);
             Plane current_plane(flight_number++, current_time, Plane_status::arriving, fuel_level);
-            if (runway->can_land_for_task_5(current_plane) != success)
+            if (runway->can_land_for_task_5(current_plane) == crash){
+                runway->shut_down(end_time);
+            }
+            else if (runway->can_land_for_task_5(current_plane) != success)
                 current_plane.refuse();
         }
 
@@ -87,15 +90,11 @@ void Airport_5::run()
             break;
         case Runway_activity::idle:
             run_idle(current_time);
-        case Runway_activity::crash:
-            runway->shut_down(end_time);
-        
-
         }
     }
 }
 
 void Airport_5::shut_down()
 {
-    runway->shut_down(end_time);
+    runway->shut_down_task_5(end_time);
 }
