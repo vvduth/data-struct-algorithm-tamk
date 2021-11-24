@@ -25,7 +25,9 @@ Airport_5::~Airport_5()
 void Airport_5::initialize()
 {
     cout << "This program simulates an airport with only one runway." << endl
-         << "One plane can land or depart in each unit of time." << endl;
+         << "One plane can land or depart in each unit of time." << endl
+         << "Each plane arrives has its own fuel level (1 - 5)" << endl 
+         << "If fuel level < 1 the plane will be granted to land immediately" << endl ;
     cout << "Up to what number of planes can be waiting to land "
          << "or take off at any time? " << flush;
     cin >> queue_limit;
