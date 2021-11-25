@@ -53,7 +53,7 @@ void Airport_3::initialize()
         else
             acceptable = true;
 
-        if (acceptable && arrival_rate + departure_rate > 2.0)
+        if (acceptable && arrival_rate + departure_rate > 1.0)
             cerr << "Safety Warning: This airport will become saturated. " << endl;
 
     } while (!acceptable);

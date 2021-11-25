@@ -91,5 +91,5 @@ void Airport_1::run()
 
 void Airport_1::shut_down()
 {
-    runway->shut_down(end_time);
+    runway->shut_down_3(end_time);
 }
