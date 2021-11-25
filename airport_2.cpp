@@ -110,11 +110,11 @@ void Airport_2::shut_down()
     cout << "|  Stats for Arrival Runway     |\n";
     cout << "---------------------------------\n";
 
-    arrival_runway->shut_down(end_time);
+    arrival_runway->shut_down_3(end_time);
 
     cout << "---------------------------------\n";
     cout << "| Stats for Departure Runway    |\n";
     cout << "---------------------------------\n";
 
-    departure_runway->shut_down(end_time);
+    departure_runway->shut_down_3(end_time);
 }
